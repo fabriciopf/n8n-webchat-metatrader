@@ -33,7 +33,7 @@ a<!DOCTYPE html>
       const res = await fetch(webhookUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: userMsg })
+        body: userMsg
       });
 
       const data = await res.json();
