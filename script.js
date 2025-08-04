@@ -62,3 +62,11 @@ document.getElementById("userInput").addEventListener("keydown", function(event)
     sendMessageAndWait();
   }
 });
+
+
+function resetChat() {
+  sessionStorage.removeItem('session-id');
+  document.getElementById("messages").innerHTML = "";
+  document.getElementById("userInput").value = "";
+  getSessionId(); // gera novo ID
+}
