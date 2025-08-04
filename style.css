@@ -38,12 +38,12 @@ body {
 }
 
 .user-message {
-  color: #f1c40f; /* amarelo */
+  color: #2ecc71; /* verde */
   margin-bottom: 6px;
 }
 
 .n8n-message {
-  color: #2ecc71; /* verde */
+  color: #f1c40f; /* amarelo */
   margin-bottom: 6px;
 }
 
