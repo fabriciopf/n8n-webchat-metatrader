@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Chat N8N</title>
+  <style>
+    #chat { max-width: 400px; margin: 0 auto; }
+    #messages { border: 1px solid #ccc; height: 300px; overflow-y: auto; padding: 10px; }
+    input, button { width: 100%; margin-top: 5px; }
+  </style>
+</head>
+<body>
+  <div id="chat">
+    <h2>Webchat com N8N</h2>
+    <div id="messages"></div>
+    <input type="text" id="userInput" placeholder="Digite sua mensagem..." />
+    <button onclick="sendMessage()">Enviar</button>
+  </div>
+
+  <script>
+    const webhookUrl = 'http://localhost:5678/webhook/6a7f5a0e-a31e-4efc-bc20-93a4b7a1585b';
+
+    async function sendMessage() {
+      const input = document.getElementById("userInput");
+      const messages = document.getElementById("messages");
+
+      const userMsg = input.value.trim();
+      if (!userMsg) return;
+
+      messages.innerHTML += `<div><strong>Você:</strong> ${userMsg}</div>`;
+      input.value = '';
+
+      const res = await fetch(webhookUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pergunta: userMsg })
+      });
+
+      const data = await res.json();
+      messages.innerHTML += `<div><strong>N8N:</strong> ${data.resposta || '[sem resposta]'}</div>`;
+    }
+  </script>
+</body>
+</html>
