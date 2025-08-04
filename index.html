@@ -11,7 +11,7 @@ a<!DOCTYPE html>
 </head>
 <body>
   <div id="chat">
-    <h2>Chat com a Comunidade Metatrader</h2>
+    <h2>Agente da Comunidade Metatrader</h2>
     <div id="messages"></div>
     <input type="text" id="userInput" placeholder="Digite sua mensagem..." />
     <button onclick="sendMessage()">Enviar</button>
@@ -32,12 +32,12 @@ a<!DOCTYPE html>
 
       const res = await fetch(webhookUrl, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: userMsg
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify({ message: userMsg })
       });
 
       const data = await res.json();
-      messages.innerHTML += `<div><strong>N8N:</strong> ${data.output || '[sem resposta]'}</div>`;
+      messages.innerHTML += `<div><strong>Agente:</strong> ${data.output || '[sem resposta]'}</div>`;
     }
   </script>
 </body>
