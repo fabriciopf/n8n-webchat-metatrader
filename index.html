@@ -25,6 +25,7 @@
     <!--div id="loader" style="display: none;">⏳ aguardando resposta...</div-->
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script>
     const webhookUrl = 'https://9486bdfc2919.ngrok-free.app/webhook/6a7f5a0e-a31e-4efc-bc20-93a4b7a1585b';
 
@@ -67,10 +68,11 @@
     
         const data = await res.json();
         
-        // Mensagem do N8N
+        // Mensagem do Agente
+        const htmlResposta = marked.parse(data.output || '[sem resposta]');
         const n8nDiv = document.createElement("div");
         n8nDiv.className = "n8n-message";
-        n8nDiv.innerHTML = `<strong>Agente:</strong> ${data.output || '[sem resposta]'}`;
+        n8nDiv.innerHTML = `<strong>Agente:</strong> ${htmlResposta}`;
         messages.appendChild(n8nDiv);
         
       } catch (err) {
@@ -82,27 +84,6 @@
         // Oculta o loader
         loader.style.display = "none";
       }
-    }
-    
-    async function sendMessage() {
-      const input = document.getElementById("userInput");
-      const messages = document.getElementById("messages");
-
-      const userMsg = input.value.trim();
-      if (!userMsg) return;
-
-      messages.innerHTML += `<div><strong>Você:</strong> ${userMsg}</div>`;
-      input.value = '';
-
-      const sessionId = getSessionId();
-      const res = await fetch(webhookUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain', 'x-session-id': sessionId },
-        body: JSON.stringify({ chatInput: userMsg })
-      });
-
-      const data = await res.json();
-      messages.innerHTML += `<div><strong>Agente:</strong> ${data.output || '[sem resposta]'}</div>`;
     }
 
     document.getElementById("userInput").addEventListener("keydown", function(event) {
