@@ -20,6 +20,15 @@ a<!DOCTYPE html>
   <script>
     const webhookUrl = 'https://9486bdfc2919.ngrok-free.app/webhook/6a7f5a0e-a31e-4efc-bc20-93a4b7a1585b';
 
+    function getSessionId() {
+      let sessionId = localStorage.getItem('session-id');
+      if (!sessionId) {
+        sessionId = crypto.randomUUID(); 
+        localStorage.setItem('session-id', sessionId);
+      }
+      return sessionId;
+    }
+    
     async function sendMessage() {
       const input = document.getElementById("userInput");
       const messages = document.getElementById("messages");
@@ -30,9 +39,10 @@ a<!DOCTYPE html>
       messages.innerHTML += `<div><strong>Você:</strong> ${userMsg}</div>`;
       input.value = '';
 
+      const sessionId = getSessionId();
       const res = await fetch(webhookUrl, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'X-Session-Id': sessionId },
         body: JSON.stringify({ message: userMsg })
       });
 
