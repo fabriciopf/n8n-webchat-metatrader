@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+a<!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
@@ -33,7 +33,7 @@
       const res = await fetch(webhookUrl, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ pergunta: userMsg })
+        body: JSON.stringify({ message: userMsg })
       });
 
       const data = await res.json();
