@@ -1,98 +1,24 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Chat Comunidade Metatrader</title>
   <link rel="stylesheet" href="style.css" />
-  <style>
-    #chat { max-width: 400px; margin: 0 auto; }
-    #messages { border: 1px solid #ccc; height: 300px; overflow-y: auto; padding: 10px; }
-    input, button { width: 100%; margin-top: 5px; }
-  </style>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
 
-
-  
   <div id="chat">
     <div id="messages"></div>
     <input type="text" id="userInput" placeholder="Digite sua mensagem..." />
     <button onclick="sendMessageAndWait()">Enviar</button>
-
-    <div id="loader" style="display:none;">
+    <div id="loader" style="display: none;">
       <div class="spinner"></div>
     </div>
-    <!--div id="loader" style="display: none;">⏳ aguardando resposta...</div-->
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script>
-    const webhookUrl = 'https://9486bdfc2919.ngrok-free.app/webhook/6a7f5a0e-a31e-4efc-bc20-93a4b7a1585b';
-
-    function getSessionId() {
-      let sessionId = sessionStorage.getItem('session-id');
-    
-      if (!sessionId) {
-        sessionId = crypto.randomUUID(); // Gera novo UUID
-        sessionStorage.setItem('session-id', sessionId);
-      }
-    
-      return sessionId;
-    }
-
-    async function sendMessageAndWait() {
-      const input = document.getElementById("userInput");
-      const messages = document.getElementById("messages");
-      const loader = document.getElementById("loader");
-      const sessionId = getSessionId();
-    
-      const userMsg = input.value.trim();
-      if (!userMsg) return;
-    
-      // Mensagem do usuário
-      const userDiv = document.createElement("div");
-      userDiv.className = "user-message";
-      userDiv.innerHTML = `<strong>Você:</strong> ${userMsg}`;
-      messages.appendChild(userDiv);
-      input.value = '';
-    
-      // Mostra o loader
-      loader.style.display = "block";
-    
-      try {
-        const res = await fetch("https://9486bdfc2919.ngrok-free.app/webhook/6a7f5a0e-a31e-4efc-bc20-93a4b7a1585b", {
-          method: "POST",
-          headers: { 'Content-Type': 'text/plain', 'x-session-id': sessionId },
-          body: JSON.stringify({ chatInput: userMsg })
-        });
-    
-        const data = await res.json();
-        
-        // Mensagem do Agente
-        const htmlResposta = marked.parse(data.output || '[sem resposta]');
-        const n8nDiv = document.createElement("div");
-        n8nDiv.className = "n8n-message";
-        n8nDiv.innerHTML = `<strong>Agente:</strong> ${htmlResposta}`;
-        messages.appendChild(n8nDiv);
-        
-      } catch (err) {
-        const errorDiv = document.createElement("div");
-        errorDiv.style.color = "red";
-        errorDiv.innerHTML = `<strong>Erro:</strong> ${err.message}`;
-        messages.appendChild(errorDiv);
-      } finally {
-        // Oculta o loader
-        loader.style.display = "none";
-      }
-    }
-
-    document.getElementById("userInput").addEventListener("keydown", function(event) {
-      if (event.key === "Enter") {
-        event.preventDefault();
-        sendMessageAndWait();
-      }
-    });
-    
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
