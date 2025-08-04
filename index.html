@@ -70,7 +70,7 @@
         // Mensagem do N8N
         const n8nDiv = document.createElement("div");
         n8nDiv.className = "n8n-message";
-        n8nDiv.innerHTML = `<strong>Agente:</strong> ${data.resposta || '[sem resposta]'}`;
+        n8nDiv.innerHTML = `<strong>Agente:</strong> ${data.output || '[sem resposta]'}`;
         messages.appendChild(n8nDiv);
         
       } catch (err) {
