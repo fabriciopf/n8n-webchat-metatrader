@@ -31,13 +31,13 @@
       input.value = '';
 
       const res = await fetch(webhookUrl, {
-        method: 'POST',
+        method: 'GET',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ pergunta: userMsg })
       });
 
       const data = await res.json();
-      messages.innerHTML += `<div><strong>N8N:</strong> ${data.resposta || '[sem resposta]'}</div>`;
+      messages.innerHTML += `<div><strong>N8N:</strong> ${data.output || '[sem resposta]'}</div>`;
     }
   </script>
 </body>
