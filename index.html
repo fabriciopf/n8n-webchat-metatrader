@@ -42,8 +42,8 @@ a<!DOCTYPE html>
       const sessionId = getSessionId();
       const res = await fetch(webhookUrl, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-Session-Id': sessionId },
-        body: JSON.stringify({ message: userMsg })
+        headers: { 'Content-Type': 'text/plain', 'x-session-id': sessionId },
+        body: JSON.stringify({ chatInput: userMsg })
       });
 
       const data = await res.json();
