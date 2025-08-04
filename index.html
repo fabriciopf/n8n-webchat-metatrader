@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Chat Comunidade Metatrader</title>
+  <link rel="stylesheet" href="style.css" />
   <style>
     #chat { max-width: 400px; margin: 0 auto; }
     #messages { border: 1px solid #ccc; height: 300px; overflow-y: auto; padding: 10px; }
@@ -17,7 +18,11 @@
     <div id="messages"></div>
     <input type="text" id="userInput" placeholder="Digite sua mensagem..." />
     <button onclick="sendMessageAndWait()">Enviar</button>
-    <div id="loader" style="display: none;">⏳ aguardando resposta...</div>
+
+    <div id="loader" style="display:none;">
+      <div class="spinner"></div>
+    </div>
+    <!--div id="loader" style="display: none;">⏳ aguardando resposta...</div-->
   </div>
 
   <script>
@@ -43,7 +48,11 @@
       const userMsg = input.value.trim();
       if (!userMsg) return;
     
-      messages.innerHTML += `<div><strong>Você:</strong> ${userMsg}</div>`;
+      // Mensagem do usuário
+      const userDiv = document.createElement("div");
+      userDiv.className = "user-message";
+      userDiv.innerHTML = `<strong>Você:</strong> ${userMsg}`;
+      messages.appendChild(userDiv);
       input.value = '';
     
       // Mostra o loader
@@ -57,9 +66,18 @@
         });
     
         const data = await res.json();
-        messages.innerHTML += `<div><strong>Agente:</strong> ${data.output || '[sem resposta]'}</div>`;
+        
+        // Mensagem do N8N
+        const n8nDiv = document.createElement("div");
+        n8nDiv.className = "n8n-message";
+        n8nDiv.innerHTML = `<strong>Agente:</strong> ${data.resposta || '[sem resposta]'}`;
+        messages.appendChild(n8nDiv);
+        
       } catch (err) {
-        messages.innerHTML += `<div style="color:red;"><strong>Erro:</strong> ${err.message}</div>`;
+        const errorDiv = document.createElement("div");
+        errorDiv.style.color = "red";
+        errorDiv.innerHTML = `<strong>Erro:</strong> ${err.message}`;
+        messages.appendChild(errorDiv);
       } finally {
         // Oculta o loader
         loader.style.display = "none";
@@ -88,11 +106,12 @@
     }
 
     document.getElementById("userInput").addEventListener("keydown", function(event) {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      sendMessageAndWait();
-    }
-});
+      if (event.key === "Enter") {
+        event.preventDefault();
+        sendMessageAndWait();
+      }
+    });
+    
   </script>
 </body>
 </html>
