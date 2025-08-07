@@ -1,5 +1,5 @@
 
-const webhookUrl = 'https://9486bdfc2919.ngrok-free.app/webhook/6a7f5a0e-a31e-4efc-bc20-93a4b7a1585b';
+const webhookUrl = 'https://n8n.meketrefestudios.com.br/webhook/6a7f5a0e-a31e-4efc-bc20-93a4b7a1585b';
 
 function getSessionId() {
   let sessionId = sessionStorage.getItem('session-id');
